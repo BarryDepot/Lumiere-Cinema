@@ -1,0 +1,973 @@
+/* ==========================================================================
+   GLOBAL STYLES - Custom Properties (CSS Variables)
+   ==========================================================================
+   These variables let us reuse colors and values throughout the entire stylesheet.
+   Change them here once, and they update everywhere!
+*/
+:root {
+  /* Background colors - darkest to lightest */
+  --bg-main: #050510;
+  --bg-elevated: #12121f;
+  --bg-elevated-soft: #181826;
+
+  /* Accent colors - the red theme */
+  --accent: #e50914;
+  --accent-soft: #ff4b5c;
+
+  /* text colors */
+  --text-main: #f4f4f7;
+  --text-muted: #b2b2c3;
+
+  /* UI elements */
+  --border-subtle: #26263a;
+  --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+
+  /* border radius values */
+  --radius-base: 10px;
+  --radius-pill: 999px; /* Makes things fully rounded like pills */
+
+  /* Animation speed */
+  --transition-base: 0.2s ease-in-out;
+}
+
+/* ==========================================================================
+   BASE & RESET
+   ==========================================================================
+   Resets browser defaults and sets up basic styling
+*/
+
+/* Makes sure padding and borders are included in element width/height calculations */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* smooth scrolling when clicking anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /* Uses system fonts for better performance and native feel */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  /* Gradient background */
+  background: linear-gradient(
+    to bottom,
+    #111122,
+    #0d0d1a 25%,
+    #0a0a16 50%,
+    #070712 75%,
+    var(--bg-main)
+  );
+  min-height: 100vh;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* Accessibility - visible focus indicator for keyboard navigation */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(229, 9, 20, 0.5);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
+h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.05rem;
+  margin: 0 0 0.3rem;
+}
+
+/* ==========================================================================
+   BUTTONS
+   ==========================================================================
+   Base button styles that all buttons inherit
+*/
+.btn,
+.day-btn,
+.day-button {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius-pill); /* Fully rounded edges */
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all var(--transition-base); /* hover effects */
+}
+
+/* Focus state */
+.btn:focus,
+.day-btn:focus,
+.day-button:focus {
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.3);
+}
+
+/* Primary button - the main red CTA button */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--card-shadow);
+}
+
+/* Hover effect - lifts up slightly and glows */
+.btn-primary:hover {
+  background: var(--accent-soft);
+  transform: translateY(-1px); /* Subtle lift effect */
+  box-shadow: 0 12px 30px rgba(229, 9, 20, 0.4);
+}
+
+/* Secondary button - outline style */
+.btn-secondary {
+  background: transparent;
+  color: var(--text-main);
+  border-color: var(--accent);
+}
+
+.btn-secondary:hover {
+  background: rgba(229, 9, 20, 0.1); /* Slight red tint on hover */
+}
+
+/* Smaller button variant */
+.btn-small {
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+}
+
+/* Day selector buttons - for when choosing movie days */
+.day-btn,
+.day-button {
+  padding: 0.5rem 1rem;
+  border-color: var(--border-subtle);
+  background: #080816;
+  color: var(--text-main);
+  font-size: 0.85rem;
+}
+
+.day-btn:hover,
+.day-button:hover {
+  border-color: var(--accent-soft);
+  background-color: rgba(229, 9, 20, 0.15);
+}
+
+/* Active state - the currently selected day */
+.day-btn.active,
+.day-button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Special override for movie action buttons - they need different styling */
+.movie-actions .btn {
+  background: transparent !important;
+  border: 1px solid var(--accent) !important;
+  color: var(--accent-soft) !important;
+  padding: 0.3rem 1.2rem !important;
+  font-size: 0.8rem !important;
+  box-shadow: none !important;
+  transform: none !important; /* Don't lift on hover like primary buttons */
+}
+
+.movie-actions .btn:hover {
+  background-color: rgba(229, 9, 20, 0.1) !important;
+  transform: none !important;
+}
+
+/* ==========================================================================
+   LAYOUT - Header, Main, Footer
+   ========================================================================== */
+
+/* Sticky header - stays at top when scrolling */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10; /* Sits above other content */
+  background: rgba(5, 5, 16, 0.96); /* Slightly transparent */
+  backdrop-filter: blur(10px); /* Blurs content behind it */
+  border-bottom: 1px solid var(--border-subtle);
+  padding-inline: 1.4rem;
+}
+
+/* Cinema logo/brand */
+.navbar-brand {
+  color: var(--accent-soft) !important;
+  font-size: 1.8rem;
+  letter-spacing: 0.05em; /* Slight spacing for style */
+  padding: 0.3rem 0;
+}
+
+/* Navigation links */
+.navbar-dark .navbar-nav .nav-link {
+  color: var(--text-muted) !important;
+  font-size: 1rem;
+  padding: 0.55rem 1rem;
+  margin-left: 0.35rem;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: var(--text-main) !important;
+}
+
+/* Active/current page link - highlighted in red */
+.navbar-dark .navbar-nav .nav-link.active {
+  color: #fff !important;
+  background-color: var(--accent);
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.8rem;
+}
+
+/* Main content area */
+main {
+  max-width: 1120px; /* Constrain width on large screens */
+  margin: 1.5rem auto 3rem; /* Center horizontally */
+  padding: 0 1rem;
+  min-height: calc(100vh - 350px); /* Ensures footer stays at bottom */
+}
+
+/* Footer section */
+footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 1.5rem 1rem 2rem;
+  background: var(--bg-main);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.footer-info {
+  max-width: 700px;
+  margin: 0 auto 0.75rem;
+  font-size: 0.9rem;
+}
+
+.footer-copy {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+/* ==========================================================================
+   COMMON COMPONENTS
+   ========================================================================== */
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.page-header p {
+  color: var(--text-muted);
+  max-width: 520px;
+  margin: 0.3rem 0 0;
+}
+
+.centered-link {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.link-more {
+  color: var(--accent-soft);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link-more:hover {
+  text-decoration: underline;
+}
+
+/* Elevated sections - cards with dark background and shadow */
+.day-selector,
+.schedule-controls,
+.movies-toolbar,
+.schedule-display-section,
+.booking-form-section,
+.offer,
+.faq-item {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-base);
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border-subtle);
+  margin-bottom: 1.5rem;
+}
+
+/* Extra styling for main display sections */
+.schedule-display-section,
+.booking-form-section {
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem;
+}
+
+.offer {
+  background: var(--bg-elevated-soft);
+  margin-bottom: 0.8rem;
+}
+
+/* FAQ items - collapsible sections */
+.faq-item {
+  margin-bottom: 0.7rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+.day-selector h3 {
+  margin: 0 0 0.8rem;
+  font-size: 1rem;
+}
+
+/* Flex containers for buttons and actions */
+.day-buttons,
+.movie-actions,
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap; /* Wrap to multiple lines on small screens */
+  gap: 0.6rem;
+}
+
+.day-buttons {
+  gap: 0.5rem;
+}
+
+.hero-actions {
+  gap: 1rem;
+}
+
+.movie-actions {
+  margin-top: 0.3rem;
+}
+
+/* ==========================================================================
+   MOVIE CARDS
+   ========================================================================== */
+.movie-card {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-base);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  /* Smooth hover animation */
+  transition: transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+/* Hover effect - card lifts up */
+.movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* movie poster image */
+.movie-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover; /* crop to fill without distortion */
+  display: block;
+}
+
+.movie-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Takes remaining space */
+  padding: 1rem 1.2rem;
+}
+
+.movie-card-content p {
+  margin: 0 0 1rem 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.movie-card-content .btn {
+  align-self: flex-start;
+  margin-top: auto; /* Push to bottom */
+}
+
+/* ==========================================================================
+   MOVIES GRID LAYOUT - List view with horizontal cards
+   ========================================================================== */
+.movies-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Horizontal card layout for movies list */
+.movies-grid .movie-card {
+  flex-direction: row; /* Image on left, content on right */
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Taller poster for list view */
+.movies-grid .movie-card img {
+  width: 230px;
+  height: 325px;
+  border-radius: 8px;
+  flex-shrink: 0; /* DON'T shrink the image */
+}
+
+.movie-info {
+  flex: 1;
+  padding-right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.movie-info h3 {
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+/* Movie metadata - runtime, genre, etc */
+.movie-meta,
+.movie-showtimes {
+  margin: 0.2rem 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.movie-showtimes {
+  font-size: 0.9rem;
+}
+
+/* Expandable description section - hidden by default */
+.movie-description {
+  margin-top: 0.6rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: var(--bg-elevated-soft);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  display: none; /* Hidden until toggled */
+}
+
+/* Show description when card has this class */
+.movie-card.show-description .movie-description {
+  display: block;
+}
+
+/* ==========================================================================
+   HOME PAGE - HERO SECTION
+   ==========================================================================
+   The big banner at the top
+*/
+.hero {
+  border-radius: 18px;
+  padding: 4rem 2.5rem;
+  margin-bottom: 2.5rem;
+  background: linear-gradient(135deg, #0a0a16, #12121f 50%, #1a1a2e);
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Animated red glow circle - top right */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.2), transparent 70%);
+  border-radius: 50%;
+  animation: pulse 8s ease-in-out infinite; /* Slow pulsing animation */
+}
+
+/* Pulsing animation for the background circles */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.3;
+  }
+}
+
+/* Second animated glow circle - bottom left */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.15), transparent 70%);
+  border-radius: 50%;
+}
+
+/* Diagonal stripe pattern overlay */
+.hero-overlay {
+  position: absolute;
+  inset: 0; /* Cover entire hero section */
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 40px,
+    rgba(229, 9, 20, 0.02) 40px,
+    rgba(229, 9, 20, 0.02) 80px
+  );
+  pointer-events: none; /* Don't block clicks */
+  opacity: 0.3;
+}
+
+/* Hero text content */
+.hero-content {
+  position: relative;
+  z-index: 2; /* Sits above the animated background */
+  max-width: 600px;
+}
+
+.hero-title {
+  margin: 0 0 1rem;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.2;
+  text-shadow: 0 2px 20px rgba(229, 9, 20, 0.3); /* Subtle red glow */
+}
+
+.hero-subtitle {
+  margin-bottom: 2rem;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Hero buttons have special styling */
+.hero-actions .btn-secondary {
+  background: rgba(18, 18, 31, 0.8);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  backdrop-filter: blur(10px); /* Glassmorphism effect */
+}
+
+.hero-actions .btn-secondary:hover {
+  background: rgba(18, 18, 31, 1);
+  border-color: var(--accent-soft);
+}
+
+/* Page sections spacing */
+.now-showing-highlights,
+.why-choose,
+.special-offers,
+.about,
+.facilities,
+.location,
+.faqs {
+  margin-bottom: 2.5rem;
+}
+
+.about,
+.facilities,
+.location,
+.faqs {
+  margin-bottom: 2rem;
+}
+
+/* Movie highlights grid */
+.movie-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+/* For homepage movie cards */
+.now-showing-highlights .movie-card img {
+  object-fit: contain;
+}
+
+/* Lists styling */
+.benefits-list,
+.facilities ul {
+  padding-left: 1.3rem;
+  color: var(--text-muted);
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+
+.facilities ul {
+  list-style: disc;
+}
+
+.benefits-list li {
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.4rem;
+}
+
+/* Custom bullet point - red diamond */
+.benefits-list li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  top: 0.15rem;
+  font-size: 0.6rem;
+  color: var(--accent-soft);
+}
+
+/* ==========================================================================
+   FILTERS & FORMS
+   ========================================================================== */
+
+/* Filter controls for movies page */
+.movies-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filter-group,
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group {
+  min-width: 180px;
+}
+
+.form-row {
+  margin-bottom: 0.75rem;
+}
+
+/* Labels for inputs */
+.filter-group label,
+.form-row label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.form-row label {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Input fields styling */
+.filter-group input,
+.filter-group select,
+.form-row input,
+.form-row select,
+.form-row textarea {
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  background: #080816;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+/* Text area specific styling */
+.form-row textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* required field indicator (red asterisk) */
+.required {
+  color: var(--accent-soft);
+  margin-left: 0.1rem;
+  transition: color var(--transition-base);
+}
+
+/* Green tick when field is valid */
+.form-row.valid .required {
+  color: #7bf59e;
+}
+
+/* Form validation messages */
+.error-message {
+  min-height: 1em; /* reserve space even when empty */
+  font-size: 0.8rem;
+  color: #ff8080;
+  margin-top: 0.15rem;
+}
+
+.error-message.success-message {
+  color: #7bf59e;
+}
+
+/* Input validation states */
+.form-row input.input-error,
+.form-row select.input-error {
+  border-color: #ff8080;
+  box-shadow: 0 0 0 1px rgba(255, 128, 128, 0.3);
+}
+
+.form-row input.input-success,
+.form-row select.input-success {
+  border-color: #7bf59e;
+  box-shadow: 0 0 0 1px rgba(123, 245, 158, 0.3);
+}
+
+.form-actions {
+  margin-top: 1.2rem;
+}
+
+/* success messages */
+.form-success-message,
+#ticket-success-message {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: #7bf59e; /* Green for success */
+}
+
+/* booking form specific styling */
+.booking-form {
+  max-width: 640px;
+  margin: 0 auto; /* Center the form */
+}
+
+.booking-form fieldset {
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.booking-form legend {
+  padding: 0 0.4rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   SCHEDULE & TABLES
+   ========================================================================== */
+
+#schedule-display h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+/* Movie schedule table */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse; /* Remove gaps between cells */
+  font-size: 0.9rem;
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: left;
+}
+
+/* Table headers */
+.schedule-table th {
+  background: #0a0a14;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+/* Hover effect on table rows */
+.schedule-table tbody tr {
+  transition: background-color var(--transition-base);
+}
+
+.schedule-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.02); /* Very subtle highlight */
+}
+
+/* Column widths and styling */
+.schedule-table td:first-child {
+  font-weight: 600;
+  color: var(--text-main);
+  width: 40%;
+}
+
+.schedule-table td:nth-child(2) {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  width: 20%;
+}
+
+.schedule-table td:last-child {
+  width: 40%;
+}
+
+/* showtime text styling */
+.showtime-list {
+  color: var(--accent-soft);
+  font-weight: 500;
+}
+
+/* Age rating badge for the movies (PG, 12A, etc) */
+.rating-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--bg-elevated-soft);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+}
+
+/* ==========================================================================
+   ABOUT PAGE
+   ========================================================================== */
+.about p,
+.location p {
+  max-width: 680px;
+  color: var(--text-muted);
+}
+
+/* Google Maps container */
+.map-container {
+  margin-top: 1rem;
+  border-radius: 10px;
+  overflow: hidden; /* Clip the map to rounded corners */
+  box-shadow: var(--card-shadow);
+}
+
+/* FAQ accordion button */
+.faq-question {
+  width: 100%;
+  text-align: left;
+  padding: 0.7rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Plus/minus icon for FAQ */
+.faq-question::after {
+  content: '+';
+  font-weight: 600;
+  color: var(--accent-soft);
+  font-size: 1.2rem;
+}
+
+/* Change to minus when open */
+.faq-item.open .faq-question::after {
+  content: '−';
+}
+
+/* FAQ answer - hidden by default */
+.faq-answer {
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  display: none;
+}
+
+/* Show answer when FAQ is opened */
+.faq-item.open .faq-answer {
+  display: block;
+}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+
+/* Pulsing highlight animation */
+@keyframes highlight {
+  0%,
+  100% {
+    box-shadow: var(--card-shadow);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.5), var(--card-shadow);
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN - Media Queries
+   ==========================================================================
+   Adjusts layout for mobile devices (<=768px) and large screens (>=1024px)
+*/
+
+/* MOBILE STYLES */
+@media (max-width: 768px) {
+  /* Reduce hero section padding */
+  .hero {
+    padding: 2.2rem 1.4rem;
+  }
+
+  /* Smaller text sizes */
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  /* Stack filters vertically instead of side-by-side */
+  .movies-filters {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  /* Switch movie cards to vertical layout */
+  .movies-grid .movie-card {
+    flex-direction: column;
+  }
+
+  /* Full width images */
+  .movies-grid .movie-card img {
+    width: 100%;
+    height: 230px;
+  }
+
+  /* Reduced form padding */
+  .booking-form fieldset {
+    padding: 0.8rem 0.9rem 1rem;
+  }
+
+  /* Less padding in schedule section */
+  .schedule-display-section {
+    padding: 1rem;
+  }
+}
+
+/* DESKTOP STYLES */
+@media (min-width: 1024px) {
+  /* Add top margin to hero on large screens */
+  .hero {
+    margin-top: 1rem;
+  }
+}
